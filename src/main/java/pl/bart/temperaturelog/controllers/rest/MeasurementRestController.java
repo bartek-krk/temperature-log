@@ -1,4 +1,4 @@
-package pl.bart.temperaturelog.rest;
+package pl.bart.temperaturelog.controllers.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +11,7 @@ import pl.bart.temperaturelog.services.MeasurementService;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/measurements")
+@RequestMapping(value = "/api/measurements")
 public class MeasurementRestController {
 
     @Autowired

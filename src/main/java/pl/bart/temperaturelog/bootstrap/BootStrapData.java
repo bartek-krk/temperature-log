@@ -6,6 +6,7 @@ import pl.bart.temperaturelog.models.Measurement;
 import pl.bart.temperaturelog.models.Station;
 import pl.bart.temperaturelog.repositories.MeasurementRepository;
 import pl.bart.temperaturelog.repositories.StationRepository;
+import pl.bart.temperaturelog.utilities.ApiKeyGenerator;
 
 import java.time.Instant;
 
@@ -36,5 +37,6 @@ public class BootStrapData implements CommandLineRunner {
         stationRepository.save(s1);
         stationRepository.save(s2);
         measurementRepository.save(m1);
+
     }
 }
