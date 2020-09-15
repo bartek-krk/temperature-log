@@ -9,4 +9,5 @@ public interface StationService {
     public List<Station> getAllStations ();
     public Station getStationById (Long id);
     public void saveAddedStation (StationForm stationForm);
+    public boolean deleteByIdAndApiKey(Long id, String apiKey);
 }

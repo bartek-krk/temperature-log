@@ -33,4 +33,16 @@ public class StationServiceImpl implements StationService {
     public void saveAddedStation(StationForm stationForm) {
         stationRepository.save(stationFormToStationConverter.convert(stationForm));
     }
+
+    @Override
+    public boolean deleteByIdAndApiKey(Long id, String apiKey) {
+        Station station = stationRepository.findById(id).orElse(null);
+        if (station != null) {
+            if (station.getApiKey().equals(apiKey)) {
+                stationRepository.deleteById(id);
+                return true;
+            }
+        }
+        return false;
+    }
 }

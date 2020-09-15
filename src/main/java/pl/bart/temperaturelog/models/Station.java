@@ -21,7 +21,7 @@ public class Station {
     @JsonIgnore
     private String eMail;
 
-    @OneToMany(mappedBy = "station")
+    @OneToMany(mappedBy = "station", fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     @OrderBy("timestamp")
     @JsonBackReference
     private Set<Measurement> measurements = new HashSet<>();
@@ -53,9 +53,7 @@ public class Station {
         this.measurements = measurements;
     }
 
-    public String geteMail() {
-        return eMail;
-    }
+    public String geteMail() { return eMail; }
 
     public void seteMail(String eMail) {
         this.eMail = eMail;
@@ -67,5 +65,20 @@ public class Station {
 
     public void setApiKey(String apiKey) {
         this.apiKey = apiKey;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Station station = (Station) o;
+
+        return id != null ? id.equals(station.id) : station.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }
