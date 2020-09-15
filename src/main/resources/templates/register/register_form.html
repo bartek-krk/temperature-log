@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature Log - register</title>
+</head>
+<body>
+    <form id="form" class="form-horizontal" th:object="${registrationForm}" th:action="@{/register}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <label>Location:</label><br>
+        <input type="text" th:field="*{location}"/><br>
+        <label>eMail</label><br>
+        <input type="text" th:field="*{eMail}"/><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Temperature Log - homepage</title>
 </head>
 <body>
     <h1>Temperature Log - homepage</h1>
+    <ul>
+        <li><a th:href="@{/register}">Register station</a></li>
+    </ul>
 </body>
 </html>

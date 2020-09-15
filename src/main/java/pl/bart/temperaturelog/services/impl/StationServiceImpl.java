@@ -1,6 +1,8 @@
 package pl.bart.temperaturelog.services.impl;
 
 import org.springframework.stereotype.Service;
+import pl.bart.temperaturelog.commands.StationForm;
+import pl.bart.temperaturelog.converters.StationFormToStationConverter;
 import pl.bart.temperaturelog.models.Station;
 import pl.bart.temperaturelog.repositories.StationRepository;
 import pl.bart.temperaturelog.services.StationService;
@@ -10,9 +12,11 @@ import java.util.List;
 @Service
 public class StationServiceImpl implements StationService {
     private final StationRepository stationRepository;
+    private final StationFormToStationConverter stationFormToStationConverter;
 
-    public StationServiceImpl(StationRepository stationRepository) {
+    public StationServiceImpl(StationRepository stationRepository, StationFormToStationConverter stationFormToStationConverter) {
         this.stationRepository = stationRepository;
+        this.stationFormToStationConverter = stationFormToStationConverter;
     }
 
     @Override
@@ -23,5 +27,10 @@ public class StationServiceImpl implements StationService {
     @Override
     public Station getStationById(Long id) {
         return stationRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void saveAddedStation(StationForm stationForm) {
+        stationRepository.save(stationFormToStationConverter.convert(stationForm));
     }
 }
