@@ -18,7 +18,6 @@ public class Station {
     private Long id;
     private String location;
 
-    @JsonIgnore
     @Column(unique = true)
     private String eMail;
 

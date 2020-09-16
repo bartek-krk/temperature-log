@@ -14,7 +14,7 @@ public class StationRestController {
     @Autowired
     private StationService stationService;
 
-    @GetMapping(value = "/all")
+    @GetMapping(value = "/")
     public List<Station> getAllStations() {
         return stationService.getAllStations();
     }

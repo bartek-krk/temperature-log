@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature Log - documentation</title>
+</head>
+<body>
+    <h1>Temperature Log - documentation</h1>
+    <h2>Table of Contents</h2>
+    <ol>
+        <li><a href="#1">Introduction</a></li>
+        <li><a href="#2">Data storage</a></li>
+        <li>
+            <a href="#3">How to use Temperature Log?</a>
+            <ol type="a">
+                <li><a href="#3a">Registration</a></li>
+                <li><a href="#3b">Accessing station information</a></li>
+                <li><a href="#3c">Deleting your station</a></li>
+                <li><a href="#3d">Accessing measurements</a></li>
+                <li><a href="#3e">Uploading measurements</a></li>
+            </ol>
+        </li>
+        <li><a href="#4">Author</a></li>
+    </ol>
+
+    <div id="1">
+        <h3>1. Introduction</h3>
+        <p>Temperature Log is a web application that allows its users to track temperature history in their
+        neighborhood. It is intended to be mainly used automatically by ESP8266 microcontroller, however some
+        features require manual user's interference. The purpose of the project is sheerly educational and
+        recreative - by no means commercial.</p>
+    </div>
+
+    <div id="2">
+        <h3>2. Data storage</h3>
+        <p>Be aware that all information you share with Temperature Log will be publicly available. It is
+        advisable to use special email account for registration. You have the right to delete your station
+        at any time. Never reveal your accurate location (i.e. home address) on the website, use city
+        name instead. Taking the purpose of the project, I cannot guarantee persistence and availability
+        of the service.</p>
+    </div>
+
+    <div id="3">
+        <h3>How to use Temperature Log?</h3>
+        <div id="3a">
+            <h4>3a. Registration</h4>
+            <p>To register with Temperature Log use the form provided. You will be asked to provide your
+            station's location (use city, country) and your email. I strongly advise against using your
+            private email address, because it will be publicly visible on the website. After submitting
+            a successful registration an email message will be sent to you. Keep it safe, as it contains
+            your station ID and API key, which you will need to authenticate yourself in the service.</p>
+        </div>
+        <div id="3b">
+            <h4>3b. Accessing station information</h4>
+            <p>You can access information about the stations being currently registered. In order to view
+            all stations make a HTTP GET request against "/api/stations/". To find a specified station
+            use HTTP GET against "/api/stations/{stationId}", where {stationId} is a unique station
+            number. All responses are provided in JSON format.</p>
+        </div>
+        <div id="3c">
+            <h4>3c. Deleting your station</h4>
+            <p>In order to delete your station you will have to provide your station ID and API key. Send
+            a HTTP DELETE request against "/api/stations/{stationId}" with a header of pattern:
+            key="api_key", value="yourapikey...". If station is successfully deleted response "Delete
+            successful" is sent by the server.</p>
+        </div>
+        <div id="3d">
+            <h4>3d. Accessing measurements</h4>
+            <p>You can only view measurements from a specified station. To do so make a HTTP GET request
+            against "/api/measurements/{stationId}". All responses are provided in JSON format.</p>
+        </div>
+        <div id="3e">
+            <h4>3e. Uploading measurements</h4>
+            <p>This functionality is intended to be used by ESP8266. A HTTP PUT request has to be sent
+            against "/api/measurements". It must include a header of pattern: key="api_key",
+            value="yourapikey..." and a JSON formatted request body with "stationId" and "temperature"
+            parameters.</p>
+        </div>
+    </div>
+    <div id="4">
+        <h3>4. Author</h3>
+        <p>My name is Bartek. Feel free to check my other projects on <a href="https://github.com/bartek-krk">GitHub</a>.</p>
+    </div>
+</body>
+</html>
