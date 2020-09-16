@@ -57,4 +57,12 @@ public class StationServiceImpl implements StationService {
             }
         return false;
     }
+
+    @Override
+    public boolean isEmailFree(String email) {
+        for(Station station : stationRepository.findAll()) {
+            if (station.geteMail().equals(email)) return false;
+        }
+        return true;
+    }
 }

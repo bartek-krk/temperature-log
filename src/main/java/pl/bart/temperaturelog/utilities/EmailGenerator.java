@@ -2,9 +2,6 @@ package pl.bart.temperaturelog.utilities;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.mail.MailException;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -15,13 +12,12 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 
 @Service
 public class EmailGenerator {
 
-    @Value("classpath:static/emails/credentials.txt")
-    Resource resource;
+    @Value("classpath:static/emails/credentials.html")
+    Resource emailResource;
 
     JavaMailSender javaMailSender;
 
@@ -38,17 +34,16 @@ public class EmailGenerator {
         String message = "";
 
         try {
-            File file = resource.getFile();
-            message = new String(Files.readAllBytes(file.toPath()));
+            File emailFile = emailResource.getFile();
+            message = new String(Files.readAllBytes(emailFile.toPath()));
         }
         catch (IOException e) {e.printStackTrace();}
 
+        message = message.replace("$location", station.getLocation());
         message = message.replace("$id", station.getId().toString());
         message = message.replace("$key", station.getApiKey());
 
-        System.out.println(message);
-
-        mimeMessageHelper.setText("test", true);
+        mimeMessageHelper.setText(message, true);
         //javaMailSender.send(mimeMessage); //disabled for testing
     }
 

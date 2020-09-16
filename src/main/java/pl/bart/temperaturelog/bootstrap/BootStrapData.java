@@ -23,9 +23,11 @@ public class BootStrapData implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Station s1 = new Station();
         s1.setLocation("New York");
+        s1.seteMail("s1@s1.pl");
 
         Station s2 = new Station();
         s2.setLocation("Washington");
+        s2.seteMail("s2@s2.pl");
 
         Measurement m1 = new Measurement();
         m1.setTimestamp(Instant.now().getEpochSecond());

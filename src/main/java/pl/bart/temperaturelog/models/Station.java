@@ -19,6 +19,7 @@ public class Station {
     private String location;
 
     @JsonIgnore
+    @Column(unique = true)
     private String eMail;
 
     @OneToMany(mappedBy = "station", fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)

@@ -27,7 +27,10 @@ public class RegisterController {
 
     @PostMapping
     public String saveStation(StationForm stationForm, BindingResult bindingResult) {
-        stationService.saveAddedStation(stationForm);
-        return "register/success";
+        if (stationService.isEmailFree(stationForm.geteMail())){
+            stationService.saveAddedStation(stationForm);
+            return "register/success";
+        }
+        else return "register/username_occupied";
     }
 }
