@@ -6,6 +6,7 @@ import pl.bart.temperaturelog.converters.StationFormToStationConverter;
 import pl.bart.temperaturelog.models.Station;
 import pl.bart.temperaturelog.repositories.StationRepository;
 import pl.bart.temperaturelog.services.StationService;
+import pl.bart.temperaturelog.utilities.ApiKeyAuth;
 
 import java.util.List;
 
@@ -13,10 +14,12 @@ import java.util.List;
 public class StationServiceImpl implements StationService {
     private final StationRepository stationRepository;
     private final StationFormToStationConverter stationFormToStationConverter;
+    private final ApiKeyAuth apiKeyAuth;
 
-    public StationServiceImpl(StationRepository stationRepository, StationFormToStationConverter stationFormToStationConverter) {
+    public StationServiceImpl(StationRepository stationRepository, StationFormToStationConverter stationFormToStationConverter, ApiKeyAuth apiKeyAuth) {
         this.stationRepository = stationRepository;
         this.stationFormToStationConverter = stationFormToStationConverter;
+        this.apiKeyAuth = apiKeyAuth;
     }
 
     @Override
@@ -36,13 +39,11 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public boolean deleteByIdAndApiKey(Long id, String apiKey) {
-        Station station = stationRepository.findById(id).orElse(null);
-        if (station != null) {
-            if (station.getApiKey().equals(apiKey)) {
-                stationRepository.deleteById(id);
-                return true;
+        boolean isAuthenticated = apiKeyAuth.authenticate(id, apiKey);
+        if (isAuthenticated) {
+            stationRepository.deleteById(id);
+            return true;
             }
-        }
         return false;
     }
 }
