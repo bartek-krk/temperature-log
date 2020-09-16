@@ -6,7 +6,6 @@ import pl.bart.temperaturelog.models.Measurement;
 import pl.bart.temperaturelog.models.Station;
 import pl.bart.temperaturelog.repositories.MeasurementRepository;
 import pl.bart.temperaturelog.repositories.StationRepository;
-import pl.bart.temperaturelog.utilities.ApiKeyGenerator;
 
 import java.time.Instant;
 

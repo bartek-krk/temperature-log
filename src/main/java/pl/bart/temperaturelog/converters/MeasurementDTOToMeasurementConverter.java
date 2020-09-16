@@ -2,12 +2,10 @@ package pl.bart.temperaturelog.converters;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import pl.bart.temperaturelog.commands.MeasurementDTO;
 import pl.bart.temperaturelog.models.Measurement;
 import pl.bart.temperaturelog.models.Station;
 import pl.bart.temperaturelog.services.StationService;
-import pl.bart.temperaturelog.services.impl.MeasurementServiceImpl;
 
 import java.time.Instant;
 

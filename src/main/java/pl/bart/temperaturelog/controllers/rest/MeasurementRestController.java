@@ -20,9 +20,8 @@ public class MeasurementRestController {
         return measurementService.getByStationId(stationId);
     }
 
-    @PutMapping(value = "/{stationId}")
-    public String saveMeasurement(@PathVariable Long stationId,
-                                @RequestHeader(name = "api_key") String apiKey,
+    @PutMapping(value = "/")
+    public String saveMeasurement(@RequestHeader(name = "api_key") String apiKey,
                                 @RequestBody MeasurementDTO measurementDTO) {
         boolean isSuccess = measurementService.saveAddedMeasurement(measurementDTO, apiKey);
         if (isSuccess) return "Success";

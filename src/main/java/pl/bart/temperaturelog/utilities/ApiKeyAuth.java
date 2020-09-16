@@ -1,10 +1,8 @@
 package pl.bart.temperaturelog.utilities;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import pl.bart.temperaturelog.models.Station;
 import pl.bart.temperaturelog.repositories.StationRepository;
-import pl.bart.temperaturelog.services.StationService;
 
 @Component
 public class ApiKeyAuth {
