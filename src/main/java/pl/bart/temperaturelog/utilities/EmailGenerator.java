@@ -37,8 +37,7 @@ public class EmailGenerator {
         String message = "";
 
         try {
-            File emailFile = credentialsEmailResource.getFile();
-            message = new String(Files.readAllBytes(emailFile.toPath()));
+            message = new String(credentialsEmailResource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
         }
         catch (IOException e) {e.printStackTrace();}
 
@@ -59,8 +58,7 @@ public class EmailGenerator {
         String message = "";
 
         try {
-            File emailFile = apiWarningEmailResource.getFile();
-            message = new String(Files.readAllBytes(emailFile.toPath()));
+            message = new String(apiWarningEmailResource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
         }
         catch (IOException e) {e.printStackTrace();}
 
