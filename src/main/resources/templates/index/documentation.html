@@ -37,7 +37,8 @@
         advisable to use special email account for registration. You have the right to delete your station
         at any time. Never reveal your accurate location (i.e. home address) on the website, use city
         name instead. Taking the purpose of the project, I cannot guarantee persistence and availability
-        of the service.</p>
+        of the service. Currently, due to data storage capacity limitation, each station can only
+        successfully submit 750 HTTP PUT requests totally.</p>
     </div>
 
     <div id="3">
@@ -74,7 +75,7 @@
             <p>This functionality is intended to be used by ESP8266. A HTTP PUT request has to be sent
             against "/api/measurements". It must include a header of pattern: key="api_key",
             value="yourapikey..." and a JSON formatted request body with "stationId" and "temperature"
-            parameters.</p>
+            parameters. Data storage limited, see section 2.</p>
         </div>
     </div>
     <div id="4">

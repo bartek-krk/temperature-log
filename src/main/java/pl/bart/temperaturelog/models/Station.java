@@ -26,6 +26,8 @@ public class Station {
     @JsonBackReference
     private Set<Measurement> measurements = new HashSet<>();
 
+    private int numberOfMeasurements;
+
     @JsonIgnore
     private String apiKey = ApiKeyGenerator.generate();
 
@@ -57,6 +59,14 @@ public class Station {
 
     public void seteMail(String eMail) {
         this.eMail = eMail;
+    }
+
+    public int getNumberOfMeasurements() {
+        return numberOfMeasurements;
+    }
+
+    public void setNumberOfMeasurements(int numberOfMeasurements) {
+        this.numberOfMeasurements = numberOfMeasurements;
     }
 
     public String getApiKey() {

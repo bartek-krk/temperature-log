@@ -17,7 +17,10 @@ import java.nio.file.Files;
 public class EmailGenerator {
 
     @Value("classpath:static/emails/credentials.html")
-    Resource emailResource;
+    Resource credentialsEmailResource;
+
+    @Value("classpath:static/emails/max_api_calls_exceeded.html")
+    Resource apiWarningEmailResource;
 
     JavaMailSender javaMailSender;
 
@@ -34,7 +37,7 @@ public class EmailGenerator {
         String message = "";
 
         try {
-            File emailFile = emailResource.getFile();
+            File emailFile = credentialsEmailResource.getFile();
             message = new String(Files.readAllBytes(emailFile.toPath()));
         }
         catch (IOException e) {e.printStackTrace();}
@@ -42,6 +45,24 @@ public class EmailGenerator {
         message = message.replace("$location", station.getLocation());
         message = message.replace("$id", station.getId().toString());
         message = message.replace("$key", station.getApiKey());
+
+        mimeMessageHelper.setText(message, true);
+        //javaMailSender.send(mimeMessage); //disabled for testing
+    }
+
+    public void sendMaxApiCallsWarning(Station station) throws MessagingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,true);
+        mimeMessageHelper.setTo(station.geteMail());
+        mimeMessageHelper.setSubject("Temperature Log - API calls exceeded");
+
+        String message = "";
+
+        try {
+            File emailFile = apiWarningEmailResource.getFile();
+            message = new String(Files.readAllBytes(emailFile.toPath()));
+        }
+        catch (IOException e) {e.printStackTrace();}
 
         mimeMessageHelper.setText(message, true);
         //javaMailSender.send(mimeMessage); //disabled for testing
