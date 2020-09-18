@@ -11,6 +11,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 @Service
@@ -46,7 +47,7 @@ public class EmailGenerator {
         message = message.replace("$key", station.getApiKey());
 
         mimeMessageHelper.setText(message, true);
-        //javaMailSender.send(mimeMessage); //disabled for testing
+        javaMailSender.send(mimeMessage);
     }
 
     public void sendMaxApiCallsWarning(Station station) throws MessagingException {
@@ -63,7 +64,7 @@ public class EmailGenerator {
         catch (IOException e) {e.printStackTrace();}
 
         mimeMessageHelper.setText(message, true);
-        //javaMailSender.send(mimeMessage); //disabled for testing
+        javaMailSender.send(mimeMessage);
     }
 
 }
