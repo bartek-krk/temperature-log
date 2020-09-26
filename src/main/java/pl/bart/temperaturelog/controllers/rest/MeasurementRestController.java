@@ -9,6 +9,7 @@ import pl.bart.temperaturelog.services.MeasurementService;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(value = "/api/measurements")
 public class MeasurementRestController {
 
