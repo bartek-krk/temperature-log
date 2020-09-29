@@ -1,17 +1,8 @@
 package pl.bart.temperaturelog.commands;
 
 public class StationForm {
-    private Long id;
     private String location;
     private String eMail;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getLocation() {
         return location;

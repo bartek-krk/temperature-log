@@ -39,7 +39,9 @@ public class StationServiceImpl implements StationService {
     @Override
     public void saveAddedStation(StationForm stationForm) {
         Station station = stationFormToStationConverter.convert(stationForm);
-        stationRepository.save(station);
+        if(station.geteMail() != null && station.getLocation() != null) {
+            stationRepository.save(station);
+        }
         station = stationRepository.getByeMail(station.geteMail()).orElse(null);
 
         try {
