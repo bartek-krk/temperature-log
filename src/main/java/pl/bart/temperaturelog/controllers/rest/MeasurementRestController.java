@@ -2,6 +2,7 @@ package pl.bart.temperaturelog.controllers.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.bart.temperaturelog.aop.annotations.RestrictedAccess;
 import pl.bart.temperaturelog.commands.MeasurementDTO;
 import pl.bart.temperaturelog.models.Measurement;
 import pl.bart.temperaturelog.services.MeasurementService;
@@ -21,11 +22,10 @@ public class MeasurementRestController {
         return measurementService.getByStationId(stationId);
     }
 
+    @RestrictedAccess
     @PutMapping(value = "/")
-    public String saveMeasurement(@RequestHeader(name = "api_key") String apiKey,
+    public void saveMeasurement(@RequestHeader(name = "api_key") String apiKey,
                                 @RequestBody MeasurementDTO measurementDTO) {
-        boolean isSuccess = measurementService.saveAddedMeasurement(measurementDTO, apiKey);
-        if (isSuccess) return "Success";
-        return "Failed";
+        measurementService.saveAddedMeasurement(measurementDTO, apiKey);
     }
 }

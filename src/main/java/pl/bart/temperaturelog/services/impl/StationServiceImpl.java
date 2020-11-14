@@ -3,6 +3,7 @@ package pl.bart.temperaturelog.services.impl;
 import org.springframework.stereotype.Service;
 import pl.bart.temperaturelog.commands.StationForm;
 import pl.bart.temperaturelog.converters.StationFormToStationConverter;
+import pl.bart.temperaturelog.exceptions.StationNotExistingException;
 import pl.bart.temperaturelog.models.Station;
 import pl.bart.temperaturelog.repositories.StationRepository;
 import pl.bart.temperaturelog.services.StationService;
@@ -51,13 +52,8 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public boolean deleteByIdAndApiKey(Long id, String apiKey) {
-        boolean isAuthenticated = apiKeyAuth.authenticate(id, apiKey);
-        if (isAuthenticated) {
-            stationRepository.deleteById(id);
-            return true;
-            }
-        return false;
+    public void deleteByIdAndApiKey(Long id, String apiKey) {
+        if (stationRepository.existsById(id)) stationRepository.deleteById(id);
     }
 
     @Override

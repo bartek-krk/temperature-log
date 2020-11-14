@@ -1,6 +1,7 @@
 package pl.bart.temperaturelog.utilities;
 
 import org.springframework.stereotype.Component;
+import pl.bart.temperaturelog.exceptions.StationNotExistingException;
 import pl.bart.temperaturelog.models.Station;
 import pl.bart.temperaturelog.repositories.StationRepository;
 
@@ -12,13 +13,15 @@ public class ApiKeyAuth {
         this.stationRepository = stationRepository;
     }
 
-    public boolean authenticate(Long stationId, String apiKey) {
+    public boolean authenticate(Long stationId, String apiKey){
         Station station = stationRepository.findById(stationId).orElse(null);
-        if (station != null) {
+        boolean stationExists = stationRepository.existsById(stationId);
+        if (stationExists) {
             if (station.getApiKey().equals(apiKey) || System.getenv("MASTER_KEY").equals(apiKey)) {
                 return true;
             }
         }
+        else throw new StationNotExistingException();
         return false;
     }
 }

@@ -2,6 +2,7 @@ package pl.bart.temperaturelog.controllers.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.bart.temperaturelog.aop.annotations.RestrictedAccess;
 import pl.bart.temperaturelog.models.Station;
 import pl.bart.temperaturelog.services.StationService;
 
@@ -25,11 +26,10 @@ public class StationRestController {
         return stationService.getStationById(stationId);
     }
 
+    @RestrictedAccess
     @DeleteMapping(value = "/{stationId}")
-    public String deleteStation(@PathVariable Long stationId,
+    public void deleteStation(@PathVariable Long stationId,
                               @RequestHeader("api_key") String apiKey) {
-        boolean isSuccess = stationService.deleteByIdAndApiKey(stationId,apiKey);
-        if (isSuccess) return "Delete successful";
-        return "Error: item not deleted";
+        stationService.deleteByIdAndApiKey(stationId,apiKey);
     }
 }
