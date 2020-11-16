@@ -38,8 +38,8 @@ submit 750 HTTP PUT requests totally.
 
 #### 3a. Registration
 
-To register with Temperature Log use the form provided. You will be
-asked to provide your station's location (use city, country) and your
+To register with Temperature Log use the form provided in graphical app. 
+You will be asked to provide your station's location (use city, country) and your
 email. I strongly advise against using your private email address,
 because it will be publicly visible on the website. After submitting a
 successful registration an email message will be sent to you. Keep it
@@ -52,29 +52,53 @@ You can access information about the stations being currently
 registered. In order to view all stations make a HTTP GET request
 against "/api/stations/". To find a specified station use HTTP GET
 against "/api/stations/{stationId}", where {stationId} is a unique
-station number. All responses are provided in JSON format.
+station number. All responses are provided in JSON format. If station
+cannot be found HTTP 404 code is returned.
 
 #### 3c. Deleting your station
 
 In order to delete your station you will have to provide your station ID
 and API key. Send a HTTP DELETE request against
-"/api/stations/{stationId}" with a header of pattern: key="api\_key",
-value="yourapikey...". If station is successfully deleted response
-"Delete successful" is sent by the server.
+"/api/stations/" with a JSON body of pattern: 
+
+    {
+        "credentials":{
+            "id":...,apiKey:"..."
+        }
+    }
+If you submit a successful request HTTP 200 (OK) is returned, 
+HTTP 403 (Forbidden) if you provide wrong credentials or HTTP 
+404 (Not found) if the station ID provided is incorrect.
 
 #### 3d. Accessing measurements
 
 You can only view measurements from a specified station. To do so make a
 HTTP GET request against "/api/measurements/{stationId}". All responses
-are provided in JSON format.
+are provided in JSON format. HTTP 404 (not found) code is returned if 
+there is no matching station.
 
 #### 3e. Uploading measurements
 
 This functionality is intended to be used by ESP8266. A HTTP PUT request
-has to be sent against "/api/measurements". It must include a header of
-pattern: key="api\_key", value="yourapikey..." and a JSON formatted
-request body with "stationId" and "temperature" parameters. Data storage
-limited, see section 2.
+has to be sent against "/api/measurements". It must include a JSON body
+of pattern:
+
+
+    { 
+        "credentials":{
+            "id":...,
+            "apiKey":"..."
+        },
+        measurement:{
+            "stationId":...,
+            "temperature":...
+        }
+    }
+
+If you submit a successful request HTTP 200 (OK) is returned, 
+HTTP 403 (Forbidden) if you provide wrong credentials or HTTP 
+404 (Not found) if the station ID provided is incorrect. 
+Data storage limited, see section 2.
 
 ### 4. Author
 
