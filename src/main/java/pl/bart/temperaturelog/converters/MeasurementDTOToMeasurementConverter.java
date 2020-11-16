@@ -20,7 +20,7 @@ public class MeasurementDTOToMeasurementConverter implements Converter<Measureme
     @Override
     public Measurement convert(MeasurementDTO measurementDTO) {
         Measurement returnMeasurement = new Measurement();
-        Station station = stationService.getStationById(measurementDTO.getStationId());
+        Station station = stationService.getStationById(measurementDTO.getCredentials().getId());
         returnMeasurement.setTimestamp(Instant.now().getEpochSecond());
         returnMeasurement.setTemperature(measurementDTO.getTemperature());
         returnMeasurement.setStation(station);

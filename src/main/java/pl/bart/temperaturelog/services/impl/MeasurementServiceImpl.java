@@ -1,5 +1,6 @@
 package pl.bart.temperaturelog.services.impl;
 
+import com.sun.istack.NotNull;
 import org.springframework.stereotype.Service;
 import pl.bart.temperaturelog.commands.MeasurementDTO;
 import pl.bart.temperaturelog.converters.MeasurementDTOToMeasurementConverter;
@@ -40,17 +41,16 @@ public class MeasurementServiceImpl implements MeasurementService {
     }
 
     @Override
-    public boolean saveAddedMeasurement(MeasurementDTO measurementDTO, String apiKey) {
-        Station station = stationRepository.findById(measurementDTO.getStationId()).orElse(null);
-        boolean isAuthenticated = apiKeyAuth.authenticate(measurementDTO.getStationId(), apiKey);
-        boolean isWithinCapacity = apiCallNumberValidator.validateNumberOfMeasurements(measurementDTO.getStationId());
-        if (isAuthenticated && isWithinCapacity) {
+    public boolean saveAddedMeasurement(MeasurementDTO measurementDTO) {
+        Station station = stationRepository.findById(measurementDTO.getCredentials().getId()).orElse(null);
+        boolean isWithinCapacity = apiCallNumberValidator.validateNumberOfMeasurements(measurementDTO.getCredentials().getId());
+        if (isWithinCapacity) {
             station.setNumberOfMeasurements(station.getNumberOfMeasurements()+1);
             stationRepository.save(station);
             measurementRepository.save(measurementDTOToMeasurementConverter.convert(measurementDTO));
             return true;
         }
-        if (!isWithinCapacity) {
+        else{
             try {
                 emailGenerator.sendMaxApiCallsWarning(station);
             }

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface MeasurementService {
     public List<Measurement> getByStationId(Long stationId);
-    public boolean saveAddedMeasurement(MeasurementDTO measurementDTO, String apiKey);
+    public boolean saveAddedMeasurement(MeasurementDTO measurementDTO);
 }

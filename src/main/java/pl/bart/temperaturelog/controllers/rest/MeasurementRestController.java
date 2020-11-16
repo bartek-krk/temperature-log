@@ -24,8 +24,7 @@ public class MeasurementRestController {
 
     @RestrictedAccess
     @PutMapping(value = "/")
-    public void saveMeasurement(@RequestHeader(name = "api_key") String apiKey,
-                                @RequestBody MeasurementDTO measurementDTO) {
-        measurementService.saveAddedMeasurement(measurementDTO, apiKey);
+    public void saveMeasurement(@RequestBody MeasurementDTO measurementDTO) {
+        measurementService.saveAddedMeasurement(measurementDTO);
     }
 }

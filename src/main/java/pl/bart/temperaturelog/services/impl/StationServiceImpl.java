@@ -42,13 +42,13 @@ public class StationServiceImpl implements StationService {
         Station station = stationFormToStationConverter.convert(stationForm);
         if(station.geteMail() != null && station.getLocation() != null) {
             stationRepository.save(station);
-        }
+        }/*
         station = stationRepository.getByeMail(station.geteMail()).orElse(null);
 
         try {
             if (station != null) emailGenerator.sendCredentials(station);
         }
-        catch (MessagingException e) {e.printStackTrace();}
+        catch (MessagingException e) {e.printStackTrace();}*/
     }
 
     @Override

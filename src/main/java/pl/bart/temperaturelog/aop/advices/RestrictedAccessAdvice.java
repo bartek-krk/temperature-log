@@ -9,6 +9,7 @@ import pl.bart.temperaturelog.commands.MeasurementDTO;
 import pl.bart.temperaturelog.controllers.rest.StationRestController;
 import pl.bart.temperaturelog.exceptions.StationNotExistingException;
 import pl.bart.temperaturelog.exceptions.UnauthorizedException;
+import pl.bart.temperaturelog.security.Credentials;
 import pl.bart.temperaturelog.utilities.ApiKeyAuth;
 
 @Aspect
@@ -20,21 +21,18 @@ public class RestrictedAccessAdvice {
 
     @Around("@annotation(pl.bart.temperaturelog.aop.annotations.RestrictedAccess)")
     public Object validateCredentials(ProceedingJoinPoint pjp) throws Throwable{
-        Long id = 0L;
-        String key = "";
+        Credentials credentials = new Credentials();
         if(pjp.getSignature().getName() == "deleteStation"){
-            id = (Long) pjp.getArgs()[0];
-            key = pjp.getArgs()[1].toString();
+            credentials = (Credentials) pjp.getArgs()[0];
         }
         else if(pjp.getSignature().getName() == "saveMeasurement"){
-            MeasurementDTO m = (MeasurementDTO) pjp.getArgs()[1];
-            id = m.getStationId();
-            key = pjp.getArgs()[0].toString();
+            MeasurementDTO m = (MeasurementDTO) pjp.getArgs()[0];
+            credentials = m.getCredentials();
         }
 
         Object returnObject = new Object();
 
-        boolean isAuthenticated = apiKeyAuth.authenticate(id,key);
+        boolean isAuthenticated = apiKeyAuth.authenticate(credentials);
 
 
         if (isAuthenticated) returnObject = pjp.proceed();

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.bart.temperaturelog.aop.annotations.RestrictedAccess;
 import pl.bart.temperaturelog.models.Station;
+import pl.bart.temperaturelog.security.Credentials;
 import pl.bart.temperaturelog.services.StationService;
 
 import java.util.List;
@@ -28,8 +29,7 @@ public class StationRestController {
 
     @RestrictedAccess
     @DeleteMapping(value = "/{stationId}")
-    public void deleteStation(@PathVariable Long stationId,
-                              @RequestHeader("api_key") String apiKey) {
-        stationService.deleteByIdAndApiKey(stationId,apiKey);
+    public void deleteStation(@RequestBody Credentials credentials) {
+        stationService.deleteByIdAndApiKey(credentials.getId(), credentials.getApiKey());
     }
 }

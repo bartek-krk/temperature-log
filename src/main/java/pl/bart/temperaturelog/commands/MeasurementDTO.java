@@ -1,15 +1,17 @@
 package pl.bart.temperaturelog.commands;
 
+import pl.bart.temperaturelog.security.Credentials;
+
 public class MeasurementDTO {
-    private Long stationId;
+    private Credentials credentials;
     private double temperature;
 
-    public Long getStationId() {
-        return stationId;
+    public Credentials getCredentials() {
+        return credentials;
     }
 
-    public void setStationId(Long stationId) {
-        this.stationId = stationId;
+    public void setCredentials(Credentials credentials) {
+        this.credentials = credentials;
     }
 
     public double getTemperature() {
