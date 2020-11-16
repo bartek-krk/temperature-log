@@ -9,6 +9,6 @@ public interface StationService {
     public List<Station> getAllStations ();
     public Station getStationById (Long id);
     public void saveAddedStation (StationForm stationForm);
-    public void deleteByIdAndApiKey(Long id, String apiKey);
+    public void deleteById(Long id);
     public boolean isEmailFree(String email);
 }

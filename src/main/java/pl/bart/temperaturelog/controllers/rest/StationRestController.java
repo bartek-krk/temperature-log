@@ -1,5 +1,6 @@
 package pl.bart.temperaturelog.controllers.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.bart.temperaturelog.aop.annotations.RestrictedAccess;
@@ -8,6 +9,8 @@ import pl.bart.temperaturelog.security.Credentials;
 import pl.bart.temperaturelog.services.StationService;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -28,8 +31,10 @@ public class StationRestController {
     }
 
     @RestrictedAccess
-    @DeleteMapping(value = "/{stationId}")
-    public void deleteStation(@RequestBody Credentials credentials) {
-        stationService.deleteByIdAndApiKey(credentials.getId(), credentials.getApiKey());
+    @DeleteMapping(value = "/")
+    public void deleteStation(@RequestBody Map<String, Object> payload) {
+        ObjectMapper om = new ObjectMapper();
+        Credentials credentials = om.convertValue(payload.get("credentials"),Credentials.class);
+        stationService.deleteById(credentials.getId());
     }
 }

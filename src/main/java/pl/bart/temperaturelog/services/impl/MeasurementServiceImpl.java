@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import org.springframework.stereotype.Service;
 import pl.bart.temperaturelog.commands.MeasurementDTO;
 import pl.bart.temperaturelog.converters.MeasurementDTOToMeasurementConverter;
+import pl.bart.temperaturelog.exceptions.StationNotExistingException;
 import pl.bart.temperaturelog.models.Measurement;
 import pl.bart.temperaturelog.models.Station;
 import pl.bart.temperaturelog.repositories.MeasurementRepository;
@@ -37,13 +38,14 @@ public class MeasurementServiceImpl implements MeasurementService {
 
     @Override
     public List<Measurement> getByStationId(Long stationId) {
+        if(!measurementRepository.existsByStationId(stationId)) throw new StationNotExistingException();
         return measurementRepository.getAllByStationId(stationId);
     }
 
     @Override
     public boolean saveAddedMeasurement(MeasurementDTO measurementDTO) {
-        Station station = stationRepository.findById(measurementDTO.getCredentials().getId()).orElse(null);
-        boolean isWithinCapacity = apiCallNumberValidator.validateNumberOfMeasurements(measurementDTO.getCredentials().getId());
+        Station station = stationRepository.findById(measurementDTO.getStationId()).orElse(null);
+        boolean isWithinCapacity = apiCallNumberValidator.validateNumberOfMeasurements(measurementDTO.getStationId());
         if (isWithinCapacity) {
             station.setNumberOfMeasurements(station.getNumberOfMeasurements()+1);
             stationRepository.save(station);

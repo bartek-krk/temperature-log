@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface MeasurementRepository extends JpaRepository<Measurement,Long> {
     public List<Measurement> getAllByStationId(Long stationId);
+    public boolean existsByStationId(Long stationId);
 }

@@ -1,5 +1,6 @@
 package pl.bart.temperaturelog.aop.advices;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,6 +13,8 @@ import pl.bart.temperaturelog.exceptions.UnauthorizedException;
 import pl.bart.temperaturelog.security.Credentials;
 import pl.bart.temperaturelog.utilities.ApiKeyAuth;
 
+import java.util.Map;
+
 @Aspect
 @Component
 public class RestrictedAccessAdvice {
@@ -21,19 +24,15 @@ public class RestrictedAccessAdvice {
 
     @Around("@annotation(pl.bart.temperaturelog.aop.annotations.RestrictedAccess)")
     public Object validateCredentials(ProceedingJoinPoint pjp) throws Throwable{
-        Credentials credentials = new Credentials();
-        if(pjp.getSignature().getName() == "deleteStation"){
-            credentials = (Credentials) pjp.getArgs()[0];
-        }
-        else if(pjp.getSignature().getName() == "saveMeasurement"){
-            MeasurementDTO m = (MeasurementDTO) pjp.getArgs()[0];
-            credentials = m.getCredentials();
-        }
+        Map<String,Object> map = (Map<String, Object>) pjp.getArgs()[0];
+
+        ObjectMapper om = new ObjectMapper();
+
+        Credentials credentials = om.convertValue(map.get("credentials"),Credentials.class);
 
         Object returnObject = new Object();
 
         boolean isAuthenticated = apiKeyAuth.authenticate(credentials);
-
 
         if (isAuthenticated) returnObject = pjp.proceed();
         else if(!isAuthenticated) throw new UnauthorizedException();

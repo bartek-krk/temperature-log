@@ -34,6 +34,7 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public Station getStationById(Long id) {
+        if(!stationRepository.existsById(id)) throw new StationNotExistingException();
         return stationRepository.findById(id).orElse(null);
     }
 
@@ -42,18 +43,19 @@ public class StationServiceImpl implements StationService {
         Station station = stationFormToStationConverter.convert(stationForm);
         if(station.geteMail() != null && station.getLocation() != null) {
             stationRepository.save(station);
-        }/*
+        }
         station = stationRepository.getByeMail(station.geteMail()).orElse(null);
 
         try {
             if (station != null) emailGenerator.sendCredentials(station);
         }
-        catch (MessagingException e) {e.printStackTrace();}*/
+        catch (MessagingException e) {e.printStackTrace();}
     }
 
     @Override
-    public void deleteByIdAndApiKey(Long id, String apiKey) {
+    public void deleteById(Long id) {
         if (stationRepository.existsById(id)) stationRepository.deleteById(id);
+        else throw new StationNotExistingException();
     }
 
     @Override
