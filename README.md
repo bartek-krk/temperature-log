@@ -63,7 +63,8 @@ and API key. Send a HTTP DELETE request against
 
     {
         "credentials":{
-            "id":...,apiKey:"..."
+            "id":...,
+            "apiKey:"..."
         }
     }
 If you submit a successful request HTTP 200 (OK) is returned, 
@@ -89,7 +90,7 @@ of pattern:
             "id":...,
             "apiKey":"..."
         },
-        measurement:{
+        "measurement":{
             "stationId":...,
             "temperature":...
         }
